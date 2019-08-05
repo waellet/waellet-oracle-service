@@ -12,5 +12,8 @@
     "aeternity"
   ],
   "author": "Milen Radkov <milenradkov@me.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
