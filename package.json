@@ -1,0 +1,16 @@
+{
+  "name": "waellet-oracle-service",
+  "version": "1.0.0",
+  "description": "Waellet Oracle Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "waellet",
+    "oracle",
+    "aeternity"
+  ],
+  "author": "Milen Radkov <milenradkov@me.com>",
+  "license": "ISC"
+}
