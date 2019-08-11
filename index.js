@@ -1,6 +1,13 @@
+// eslint-disable-next-line no-global-assign
+require = require("esm")(module/* , options */)
+
+const Ae = require('@aeternity/aepp-sdk/es/ae/universal')
+
 const express = require("express")
 const rest = require('./rest')
 const app = express()
+
+console.log(Ae);
 
 app.get("/", function(req, res) {
     res.send("Weallet Oracle Service")
