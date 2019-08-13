@@ -1,13 +1,30 @@
 // eslint-disable-next-line no-global-assign
 require = require("esm")(module/* , options */)
 
-const Ae = require('@aeternity/aepp-sdk/es/ae/universal')
+import Ae from '@aeternity/aepp-sdk/es/ae/universal'
+import Oracle from '@aeternity/aepp-sdk/es/oracle/'
+import Tx from '@aeternity/aepp-sdk/es/tx'
 
 const express = require("express")
 const rest = require('./rest')
 const app = express()
+const config = require('./config/config')
 
-console.log(Ae);
+Ae({
+  url: 'https://sdk-testnet.aepps.com',
+  internalUrl: 'https://sdk-testnet.aepps.com',
+  compilerUrl: 'https://compiler.aepps.com',
+  keypair: config.keypair,
+}).then(ae => {
+
+  ae.registerOracle("{'city': str}", "{'tmp': num}", { queryFee: 1, ttl:50 }).catch(async err => await err.verifyTx()).then(oracle => {
+    console.log(oracle);
+  })
+  // ae.registerOracle("{'city': str}", "{'tmp': num}", { queryFee: 1, oracleTtlValue: 50, vmVersion: 0, fee: 16752000000000, ttl:50}).catch(async err => await err.verifyTx()).then(oracle => {
+    // console.log(oracle);
+  // })
+})
+
 
 app.get("/", function(req, res) {
     res.send("Weallet Oracle Service")
