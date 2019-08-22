@@ -4,6 +4,7 @@ require = require("esm")(module/* , options */)
 import Ae from '@aeternity/aepp-sdk/es/ae/universal'
 import Oracle from '@aeternity/aepp-sdk/es/oracle/'
 import Tx from '@aeternity/aepp-sdk/es/tx'
+import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
 
 const express = require("express")
 const rest = require('./rest')
@@ -15,14 +16,12 @@ Ae({
   internalUrl: 'https://sdk-testnet.aepps.com',
   compilerUrl: 'https://compiler.aepps.com',
   keypair: config.keypair,
+  network_id: "ae_uat"
 }).then(ae => {
 
-  ae.registerOracle("{'city': str}", "{'tmp': num}", { queryFee: 1, ttl:50 }).catch(async err => await err.verifyTx()).then(oracle => {
+  ae.registerOracle("{'domain': str}", "{'txt': str}", { queryFee: 1, ttl:50 }).catch(async err => await err.verifyTx()).then(oracle => {
     console.log(oracle);
   })
-  // ae.registerOracle("{'city': str}", "{'tmp': num}", { queryFee: 1, oracleTtlValue: 50, vmVersion: 0, fee: 16752000000000, ttl:50}).catch(async err => await err.verifyTx()).then(oracle => {
-    // console.log(oracle);
-  // })
 })
 
 
