@@ -13,6 +13,10 @@ const config = require('./config/config')
 
 let oracleId = "ok" + config.keypair.publicKey.slice(2);
 
+function decodeQuery(data) {
+  return Crypto.decodeBase64Check(data.slice(3)).toString();
+}
+
 Ae({
   url: 'https://sdk-testnet.aepps.com',
   internalUrl: 'https://sdk-testnet.aepps.com',
@@ -20,7 +24,7 @@ Ae({
   keypair: config.keypair,
 }).then(ae => {
 
-  // // Register Waellet Oracle
+  // // // Register Waellet Oracle
   // ae
   //   .registerOracle("{'domain': str}", "{'txt': str}", { queryFee: 1, ttl:50 })
   //   .catch(async err => await err.verifyTx())
@@ -34,39 +38,53 @@ Ae({
     .then(oracleObject => {
       
       oracleObject.queries.forEach(query => {
+
+        let checkDomain = decodeQuery(query.query);
+        console.log(checkDomain);
+        console.log(query.id);
+        oracleObject
+          .respondToQuery(query.id, "yes")
+          .then(result => console.log(result));
         
-        ae
-        .getQueryObject(oracleId, query.id)
-        .then(queryObject => {
-          console.log(queryObject);
-          console.log(queryObject.decode(queryObject.query).toString());
-          queryObject.respond("yes");
-        })
+        // ae
+        // .getQueryObject(oracleId, query.id)
+        // .then(queryObject => {
+        //   console.log(queryObject);
+        //   console.log(queryObject.decode(queryObject.query).toString());
+
+        //   console.log('\n RESPOND');
+
+
+        //   queryObject.respond("yes").then(result => {
+        //     console.log(result);
+        //   });
+        // })
       });
     })
 
-  // Extend Oracle
-  ae
-    .extendOracleTtl(oracleId, { type: 'delta', value: 500 })
-    .then(result => {
-      console.log(result);
-    })
+  // // Extend Oracle
+  // ae
+  //   .extendOracleTtl(oracleId, { type: 'delta', value: 500 })
+  //   .then(result => {
+  //     console.log('\n EXTEND');
+  //     console.log(result);
+  //   })
 })
 
-Ae({
-  url: 'https://sdk-testnet.aepps.com',
-  internalUrl: 'https://sdk-testnet.aepps.com',
-  compilerUrl: 'https://compiler.aepps.com',
-  keypair: config.client,
-}).then(ae => {
+// Ae({
+//   url: 'https://sdk-testnet.aepps.com',
+//   internalUrl: 'https://sdk-testnet.aepps.com',
+//   compilerUrl: 'https://compiler.aepps.com',
+//   keypair: config.client,
+// }).then(ae => {
 
-  // Post query to oracle
-  ae
-    .postQueryToOracle(oracleId, "hack.bg")
-    .then(result => {
-      console.log(result);
-    })
-})
+//   // Post query to oracle
+//   ae
+//     .postQueryToOracle(oracleId, "hack.bg")
+//     .then(result => {
+//       console.log(result);
+//     })
+// })
 
 app.get("/", function(req, res) {
     res.send("Weallet Oracle Service")
