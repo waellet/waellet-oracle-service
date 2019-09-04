@@ -13,7 +13,7 @@ const config = require('./config/config')
 
 let oracleId = "ok" + config.keypair.publicKey.slice(2);
 
-function decodeQuery(data) {
+function decode(data) {
   return Crypto.decodeBase64Check(data.slice(3)).toString();
 }
 
@@ -24,67 +24,61 @@ Ae({
   keypair: config.keypair,
 }).then(ae => {
 
-  // // // Register Waellet Oracle
-  // ae
-  //   .registerOracle("{'domain': str}", "{'txt': str}", { queryFee: 1, ttl:50 })
-  //   .catch(async err => await err.verifyTx())
-  //   .then(oracle => {
-  //     console.log(oracle);
-  //   })
-
   // Get Oracle Object and answer queries
   ae
     .getOracleObject(oracleId)
+    .catch(async err => {
+      let error = await err.verifyTx();
+      if(error)
+      {
+        // Register Waellet Oracle
+        ae
+          .registerOracle("{'domain': str}", "{'txt': str}", { queryFee: 1, ttl:50 })
+          .catch(async err => await err.verifyTx())
+          .then(oracle => {
+            console.log(oracle);
+          })
+      }
+    })
     .then(oracleObject => {
+      console.log(oracleObject);
       
       oracleObject.queries.forEach(query => {
 
-        let checkDomain = decodeQuery(query.query);
-        console.log(checkDomain);
-        console.log(query.id);
-        oracleObject
-          .respondToQuery(query.id, "yes")
-          .then(result => console.log(result));
-        
-        // ae
-        // .getQueryObject(oracleId, query.id)
-        // .then(queryObject => {
-        //   console.log(queryObject);
-        //   console.log(queryObject.decode(queryObject.query).toString());
+        if (query.response == 'or_Xfbg4g==')
+        {
 
-        //   console.log('\n RESPOND');
-
-
-        //   queryObject.respond("yes").then(result => {
-        //     console.log(result);
-        //   });
-        // })
+          ae
+            .getOracleObject(oracleId)
+            .catch(async err => await err.verifyTx())
+            .then(syncOracleObject => {
+              const requestedDomain = decode(query.query);
+              console.log(requestedDomain);
+              console.log(query.id);
+    
+              const response = "yes";
+    
+              syncOracleObject
+                .respondToQuery(query.id, response)
+                .catch(async err => await err.verifyTx())
+                .then(result => {
+                  console.log(`\n Oracle Query Response: \n requested_domain: ${requestedDomain} \n query_response: ${response}`);
+                  console.log(result);
+                })
+            })
+          }
       });
     })
 
-  // // Extend Oracle
+  // Extend Oracle
   // ae
   //   .extendOracleTtl(oracleId, { type: 'delta', value: 500 })
+  //   .catch(async err => await err.verifyTx())
   //   .then(result => {
-  //     console.log('\n EXTEND');
-  //     console.log(result);
+  //     console.log('\n Extend oracle');
+  //     // console.log(result);
   //   })
 })
-
-// Ae({
-//   url: 'https://sdk-testnet.aepps.com',
-//   internalUrl: 'https://sdk-testnet.aepps.com',
-//   compilerUrl: 'https://compiler.aepps.com',
-//   keypair: config.client,
-// }).then(ae => {
-
-//   // Post query to oracle
-//   ae
-//     .postQueryToOracle(oracleId, "hack.bg")
-//     .then(result => {
-//       console.log(result);
-//     })
-// })
 
 app.get("/", function(req, res) {
     res.send("Weallet Oracle Service")
