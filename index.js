@@ -102,4 +102,3 @@ app.get("/v1/api/verify/domain/:domain", function(req, res) {
   })
 })
 app.listen(3000)
-
