@@ -39,7 +39,7 @@ Node.debugSwagger(false)({
           // Populate queries
           // .then(async oracle => {
           //     await oracle.postQuery("hack.bg")
-          //     await oracle.postQuery("hack2.bg")
+          //     await oracle.postQuery("mradkov.com")
           //     return ae.getOracleObject(oracleId)
           // })
               .then(async oracle => {
@@ -51,7 +51,8 @@ Node.debugSwagger(false)({
                       console.log(`\nPending queries: ${pendingQueries}`)
                       for (let query of oracle.queries) {
                           if (query.response === 'or_Xfbg4g==') {
-                              console.log(`Requested Domain: ${decode(query.query)}`)
+                              let requestedDomain = decode(query.query)
+                              console.log(`Requested Domain: ${requestedDomain}`)
                               const response = "yes";
                               const respondResult = await oracle.respondToQuery(query.id, response)
                               console.log(respondResult)
