@@ -11,6 +11,9 @@ let oracle_keypair = {
   secretKey: process.env.SECRET_KEY
 }
 
+// used to stop heroku from crashing
+let port = process.env.PORT
+
 let oracleId = "ok" + oracle_keypair.publicKey.slice(2);
 
 function decode(data) {
