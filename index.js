@@ -5,12 +5,16 @@ import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
 const express = require("express")
 const rest = require('./rest')
 const app = express()
-const config = require('./config/config')
 const util = require('util');
 const dns = require('dns');
 const setTimeoutPromise = util.promisify(setTimeout);
 
-let oracleId = "ok" + config.keypair.publicKey.slice(2);
+let oracle_keypair = {
+  publicKey: process.env.PUBLIC_KEY,
+  secretKey: process.env.SECRET_KEY
+}
+
+let oracleId = "ok" + oracle_keypair.publicKey.slice(2);
 
 function decode(data) {
     return Crypto.decodeBase64Check(data.slice(3)).toString();
@@ -30,7 +34,7 @@ Node.debugSwagger(false)({
   Ae({
     compilerUrl: 'https://compiler.aepps.com',
     nodes: [{name: 'testnet', instance: node}],
-    keypair: config.keypair,
+    keypair: oracle_keypair,
   }).then(async ae => {
     // Get Oracle Object
     setInterval(() => {
@@ -45,6 +49,7 @@ Node.debugSwagger(false)({
       // })
       .then(async oracle => {
           // Answer queries
+          console.log(`\nPending queries: 0`)
           if (oracle.queries.length) {
             let pendingQueries = oracle.queries.filter((i,n) => {
               return n.response ==='or_Xfbg4g==';
