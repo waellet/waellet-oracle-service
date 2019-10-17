@@ -26,8 +26,8 @@ Ae({
 
   // Post query to oracle
   ae
-    .postQueryToOracle(oracleId, "hack.bg")
-    .then(result => {
-      console.log(result);
-    })
+  .postQueryToOracle(oracleId, 'waellet.com')
+  .then(result => {
+    console.log(result);
+  })
 })
