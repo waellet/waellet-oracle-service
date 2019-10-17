@@ -2,7 +2,6 @@ import Ae from '@aeternity/aepp-sdk/es/ae/universal'
 import Node from '@aeternity/aepp-sdk/es/node'
 import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
 
-const app = express()
 const util = require('util');
 const dns = require('dns');
 const setTimeoutPromise = util.promisify(setTimeout);
