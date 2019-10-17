@@ -2,8 +2,6 @@ import Ae from '@aeternity/aepp-sdk/es/ae/universal'
 import Node from '@aeternity/aepp-sdk/es/node'
 import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
 
-const express = require("express")
-const rest = require('./rest')
 const app = express()
 const util = require('util');
 const dns = require('dns');
@@ -79,9 +77,3 @@ Node.debugSwagger(false)({
     }, 20000)
 }).catch(err => console.log(err))
 })
-
-app.get("/", function (req, res) {
-    res.send("Weallet Oracle Service")
-})
-
-app.listen(3000)
