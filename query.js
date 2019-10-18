@@ -2,12 +2,9 @@
 require = require("esm")(module/* , options */)
 
 import Ae from '@aeternity/aepp-sdk/es/ae/universal'
-import Oracle from '@aeternity/aepp-sdk/es/oracle/'
-import Tx from '@aeternity/aepp-sdk/es/tx'
 import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
 
 const express = require("express")
-const rest = require('./rest')
 const app = express()
 const config = require('./config/config')
 
