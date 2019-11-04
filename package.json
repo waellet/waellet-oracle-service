@@ -16,7 +16,7 @@
   "author": "Milen Radkov <milenradkov@me.com>",
   "license": "ISC",
   "dependencies": {
-    "@aeternity/aepp-sdk": "5.0.0",
+    "@aeternity/aepp-sdk": "6.0.2",
     "esm": "^3.2.25",
     "express": "^4.17.1"
   }
