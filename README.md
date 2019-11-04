@@ -1,5 +1,7 @@
 # Waellet Oracle Service
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/waellet/waellet-oracle-service.svg)](https://greenkeeper.io/)
+
 This repo is hosting the oracle service used in waellet browser.
 
 Oracles are needed in waellet for the tipping functionality it offers its users.
