@@ -18,6 +18,6 @@
   "dependencies": {
     "@aeternity/aepp-sdk": "5.0.0",
     "esm": "^3.2.25",
-    "express": "^4.17.1"
+    "express": "^4.18.2"
   }
 }
